@@ -181,72 +181,29 @@ public class Hotel {
 	}
 
 	static void bill(int rn, int rtype) {
-		double amount = 0;
-		String list[] = { "Sandwich", "Pasta", "Noodles", "Coke" };
-		System.out.println("\n*******");
-		System.out.println(" Bill:-");
-		System.out.println("*******");
+        double amount = 0;
+        System.out.println("\n*******");
+        System.out.println(" Bill:-");
+        System.out.println("*******");
 
-		switch (rtype) {
-		case 1:
-			amount += 4000;
-			System.out.println("\nRoom Charge - " + 4000);
-			System.out.println("\n===============");
-			System.out.println("Food Charges:- ");
-			System.out.println("===============");
-			System.out.println("Item   Quantity    Price");
-			System.out.println("-------------------------");
-			for (Food obb : hotel_ob.luxuryDoubleRoom[rn].food) {
-				amount += obb.price;
-				String format = "%-10s%-10s%-10s%n";
-				System.out.printf(format, list[obb.itemno - 1], obb.quantity, obb.price);
-			}
-
-			break;
-		case 2:
-			amount += 3000;
-			System.out.println("Room Charge - " + 3000);
-			System.out.println("\nFood Charges:- ");
-			System.out.println("===============");
-			System.out.println("Item   Quantity    Price");
-			System.out.println("-------------------------");
-			for (Food obb : hotel_ob.deluxeDoubleRoom[rn].food) {
-				amount += obb.price;
-				String format = "%-10s%-10s%-10s%n";
-				System.out.printf(format, list[obb.itemno - 1], obb.quantity, obb.price);
-			}
-			break;
-		case 3:
-			amount += 2200;
-			System.out.println("Room Charge - " + 2200);
-			System.out.println("\nFood Charges:- ");
-			System.out.println("===============");
-			System.out.println("Item   Quantity    Price");
-			System.out.println("-------------------------");
-			for (Food obb : hotel_ob.luxurySingleRoom[rn].food) {
-				amount += obb.price;
-				String format = "%-10s%-10s%-10s%n";
-				System.out.printf(format, list[obb.itemno - 1], obb.quantity, obb.price);
-			}
-			break;
-		case 4:
-			amount += 1200;
-			System.out.println("Room Charge - " + 1200);
-			System.out.println("\nFood Charges:- ");
-			System.out.println("===============");
-			System.out.println("Item   Quantity    Price");
-			System.out.println("-------------------------");
-			for (Food obb : hotel_ob.deluxeSingleRoom[rn].food) {
-				amount += obb.price;
-				String format = "%-10s%-10s%-10s%n";
-				System.out.printf(format, list[obb.itemno - 1], obb.quantity, obb.price);
-			}
-			break;
-		default:
-			System.out.println("Not valid");
-		}
-		System.out.println("\nTotal Amount- " + amount);
-	}
+        switch (rtype) {
+            case 1:
+                amount = printBillDetails(4000, hotel_ob.luxuryDoubleRoom[rn].food);
+                break;
+            case 2:
+                amount = printBillDetails(3000, hotel_ob.deluxeDoubleRoom[rn].food);
+                break;
+            case 3:
+                amount = printBillDetails(2200, hotel_ob.luxurySingleRoom[rn].food);
+                break;
+            case 4:
+                amount = printBillDetails(1200, hotel_ob.deluxeSingleRoom[rn].food);
+                break;
+            default:
+                System.out.println("Not valid");
+        }
+        System.out.println("\nTotal Amount- " + amount);
+    }
 
 	static void deallocate(int rn, int rtype) {
 		int j;
@@ -355,4 +312,24 @@ public class Hotel {
 			System.out.println("Cannot be done");
 		}
 	}
+	
+    private static double printBillDetails(double roomCharge, java.util.ArrayList<Food> foodList) {
+        double totalAmount = roomCharge;
+        String[] list = { "Sandwich", "Pasta", "Noodles", "Coke" };
+        
+        System.out.println("\nRoom Charge - " + roomCharge);
+        System.out.println("\n===============");
+        System.out.println("Food Charges:- ");
+        System.out.println("===============");
+        System.out.println("Item   Quantity    Price");
+        System.out.println("-------------------------");
+        
+        for (Food obb : foodList) {
+            totalAmount += obb.price;
+            String format = "%-10s%-10s%-10s%n";
+            System.out.printf(format, list[obb.itemno - 1], obb.quantity, obb.price);
+        }
+        
+        return totalAmount;
+    }
 }
